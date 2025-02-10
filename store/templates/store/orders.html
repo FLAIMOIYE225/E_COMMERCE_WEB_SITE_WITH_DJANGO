@@ -1,0 +1,111 @@
+ {% extends 'base.html' %}
+
+ {% load mathFilters %}
+ 
+ {% block content %}
+
+        <!----------------- cart items details ---------------->
+
+        <div class="small-container cart-page">
+
+            <table>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+
+                </tr>
+
+
+                {% for order in orders %}
+
+                    <tr>
+
+                        <td>
+        
+                            <div class="cart-info"> 
+                                
+                                <a href="{% url 'details' order.product.slug order.product.category.id order.product.id %}"><img src="{{ order.product.thumbnail.url }}" alt="{{order.product.name}}"></a>
+
+                                <div>
+
+                                    <p>{{ order.product.name }}</p>
+            
+                                    <small>Price : ${{order.product.price}}</small>
+
+                                    {% if order.status == 'notYetAccepted' or order.status == 'orderAborted' or order.status == 'orderDelivered' %}
+                                        <a href="{% url 'remove_order' order.id %}">Remove</a>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        
+                        </td>
+
+                        <td>
+
+                            {% if order.status == 'notYetAccepted' %}
+                                <label claas="small-container-for-two-tags">
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    <small style="display: inline-block;" >Not yet accepted</small>
+                                </label>
+
+                            {% elif order.status == 'orderAborted' %}
+                                <label claas="small-container-for-two-tags">
+                                    <i style="color: red;" class="fa fa-times" aria-hidden="true" aria-hidden="true"></i>
+                                    <small style="display: inline-block;" >Aborted</small>
+                                </label>
+
+                            {% elif order.status == 'orderAccepted' %}
+                                <label claas="small-container-for-two-tags">
+                                    <i style="font-size: 20px; color: orange;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                    <small style="display: inline-block;" >Packaging</small>
+                                </label>
+                            
+
+                            {% elif order.status == 'orderPackaged' %}
+                                <label claas="small-container-for-two-tags">
+                                    <i style="font-size: 20px; color: orange;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                    <small style="display: inline-block;" >Delivering</small>                                        <small style="display: inline-block;" ></small>
+                                </label>
+                            
+                            {% elif order.status == 'orderDelivered' %}
+                                <label claas="small-container-for-two-tags">
+                                    <i style="color: green;" class="fa fa-check-circle" aria-hidden="true"></i>
+                                    <small style="display: inline-block;" >Delivered</small>
+                                </label>
+                            {% endif %}
+
+                        </td>
+
+                        <td> <input type="number" value="{{order.quantity}}"> </td>
+
+                        <td>$ {{ order.quantity|multiply:order.product.price }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <div class="total-price">
+ 
+                <table>
+
+                    <tr>
+                        <td>Total</td>
+                        <td>${{ totalPrice|floatformat:2 }}</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+{% endblock %}
+</html>

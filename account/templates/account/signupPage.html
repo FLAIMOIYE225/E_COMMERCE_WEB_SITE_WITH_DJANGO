@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <body>
+
+        <!----------------- Account Page ---------------->
+
+        <div class="account-page">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-2">
+
+                        <img src="{% static 'images/image1.png' %}" width="100%" alt="">
+
+                    </div>
+
+                    <div class="col-2">
+
+                        <div class="form-container" >
+
+                            <div class="for-btn">
+
+                                <span onclick="login()">Login</span>
+
+                                <span onclick="register()">Register</span>
+
+                                <hr id="Indicator">
+
+                            </div>
+
+                            <form id="LoginForm" action="{% url 'login_user' %}" method="post">
+
+                                {% csrf_token %}
+
+                                <input name="username" type="text" placeholder="Username">
+
+                                <input id="passwordOne" name="password" type="password" placeholder="Password">
+
+                                <label class="small-container-for-two-tags">
+                                    <input style="width:20px" onclick="toggle_password_visibility('passwordOne')" class="toggleVisibilityBox" type="checkbox">
+                                    <small>Show password</small>
+                                </label>
+
+                                <button type="submit" class="btn">Submit</button>
+
+                                <a href="">Forget Password</a>
+
+                            </form>
+
+
+                            <form id="RegForm" action="{% url 'signUp' %}" method="post">
+
+                                {% csrf_token %}
+
+                                <input name="username" type="text" placeholder="Username">
+
+                                <input name="email" type="email" placeholder="email">
+
+                                <input id="passwordTwo" name="password" type="password" placeholder="password">
+
+                                <label class="small-container-for-two-tags">   
+                                    <input style="width:20px" onClick="toggle_password_visibility('passwordTwo')" class="toggleVisibilityBox" type="checkbox">
+                                    <small>Show password</small>
+                                </label>
+
+                                <button type="submit" class="btn">Submit</button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!----------------- js for toggle Form ------------------>
+
+        <script>
+
+            const LoginForm = document.getElementById('LoginForm');
+            const RegForm = document.getElementById('RegForm');
+            const Indicator = document.getElementById('Indicator');
+
+            /*function login() {
+
+                console.log('Login');
+
+                LoginForm.style.left = '0px';
+
+                RegForm.style.left = '-300px';
+
+                Indicator.style.transform = 'translateX(0px)';
+            };
+
+            function register() {
+
+                console.log('Register');
+
+                RegForm.style.left = '0px';
+
+                LoginForm.style.left = '-300px';
+
+                Indicator.style.transform = 'translateX(100px)';
+            };*/ /* Production personnelle */
+
+
+            /* Code orginal */
+
+            function login() {
+
+                LoginForm.style.transform = 'translateX(-300px)';
+
+                RegForm.style.transform = 'translateX(-300px)';
+
+                Indicator.style.transform = 'translateX(0px)';
+            };
+
+            function register() {
+
+                LoginForm.style.transform = 'translateX(300px)';
+
+                RegForm.style.transform = 'translateX(0px)';
+
+                Indicator.style.transform = 'translateX(100px)';
+            };
+
+            function toggle_password_visibility(passwordId){
+
+                let passwordInput = document.getElementById(passwordId)
+
+                if (passwordInput.type == 'password'){
+                    passwordInput.type = 'text';
+                } else passwordInput.type = 'password'
+            };
+
+        </script>
+
+
+    </body>
+
+{% endblock %}

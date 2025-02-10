@@ -1,0 +1,336 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load counter %}
+
+
+{% block home %}
+<div class="row">
+
+    <div class="col-2">
+        
+        <h1>Give you workout <br> A new style ! </h1>
+
+        <p>Succes isn't always about greatness. It's about 
+        consistency. Consistent <br> hard work gains succes. Greatness 
+        will come</p>
+
+        <a href="{% url 'products' %}" class="btn">Explore Now &#x27A1;</a> <!-- HTML Symboles code : https://www.toptal.com/designers/htmlarrows/symbols/ -->
+
+    </div>
+
+    <div class="col-2">
+
+        <img src="{% static 'images/image1.png' %}" alt="{{product.name}}">
+
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block content %}
+
+
+<!----------- featured categories --------------->
+
+<div class="categories">
+
+    <div class="small-container">
+
+        <div class="row">
+
+            {% if categorys %}
+
+                {% for category in categorys %}
+
+                    <div class="col-3">
+                        <img src="{{category.thumbnail.url}}" alt="{{category.name}}">
+                    </div>
+
+                {% endfor %}
+
+                {% else %}
+                <h2>No category available</h2>
+
+            {% endif %}
+            
+        </div>
+
+        
+
+
+    </div>
+
+</div>
+
+
+<!------------- Featured products -------------->
+
+<div class="small-container">
+
+    
+
+        <h2 class="title">Featured Products</h2>
+
+        <div class="row">
+
+            {% if featuredProducts %}
+
+            {% for featuredProduct in featuredProducts %}
+
+                <div class="col-4">
+
+                    <a href="{{ featuredProduct.get_absolute_url }}"><img src="{{ featuredProduct.thumbnail.url }}" alt="{{featuredProduct.name}}"></a>
+                
+                    <a href="{{ featuredProduct.get_absolute_url }}"><h4> {{featuredProduct.name}} </h4></a>
+
+                    <div class="rating">
+
+                        <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+
+                        {% for i in 5|times %}
+                            {% if i < featuredProduct.rating %}
+                                <i class="fa fa-star"></i>
+                            {% else %}
+                                <i class="fa fa-star-o"></i>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                    <p>$ {{featuredProduct.price}}</p>
+
+                </div>
+
+            {% endfor %}
+
+            {% else %}
+            <h2>No Product available</h2>
+
+            {% endif %}
+
+        </div>
+        
+    
+<!-------------- Lastest products ------------------>
+    
+
+    <h2 class="title">Latest Prodects</h2>
+
+    <div class="row">
+
+        {% if products %}
+
+        {% for product in products %}
+
+            <div class="col-4">
+                
+                <a href="{% url 'details' product.slug product.category.id product.id %}"><img src="{{ product.thumbnail.url }}" alt="{{product.name}}"></a>
+            
+                <h4> {{product.name }}</h4>
+
+                <div class="rating">
+
+                    <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+                    
+                    {% for i in 5|times %}
+                        {% if i < product.rating %}
+                            <i class="fa fa-star"></i>
+                        {% else %}
+                            <i class="fa fa-star-o"></i>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+
+                <p>$ {{product.price}}</p> 
+
+            </div>
+        
+        {% endfor %}
+
+        {% else %}
+        <h2>No category available</h2>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<!--------------- Offer ------------------->
+
+<div class="offer">
+
+    <div class="small-container">
+
+        <div class="row">
+
+            <div class="col-2">
+
+                <img src="{% static 'images/exclusive.png' %}" alt="{{product.name}}" class="offer-img">
+
+            </div>
+
+            <div class="col-2">
+
+                <p>Excusively Available on RedStore</p>
+
+                <h1>Smart Band 4</h1>
+
+                <small>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae, culpa, adipisci esse ea sint illo velit aspernatur facere omnis consectetur dolore voluptate quo et quos iusto suscipit enim atque hic.</small>
+                
+                <a href="" class="btn">Buy Now &#x27A1;</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!---------------- testimonial --------------->
+
+<div class="testimonial">
+
+    <div class="small-container">
+
+        <div class="row">
+
+            <div class="col-3">
+
+                <!--<div class="test">-->
+
+                    <i class="fa fa-quote-left"></i>
+
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus sapiente eveniet soluta nostrum libero non vel et doloremque corporis</p>
+
+                    <div class="rating">
+
+                        <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+
+                    </div>
+
+                    <img src="{% static 'images/user-1.png' %}" alt="{{product.name}}" class="user-img">
+
+                    <h3>Sean Parker</h3>
+
+                <!--</div>-->
+
+            </div>
+
+
+            <div class="col-3">
+
+                <!--<div class="test"> -->
+
+                    <i class="fa fa-quote-left"></i>
+
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus sapiente eveniet soluta nostrum libero non vel et doloremque corporis</p>
+
+                    <div class="rating">
+
+                        <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+
+                    </div>
+
+                    <img src="{% static 'images/user-2.png' %}" alt="{{product.name}}" class="user-img">
+
+                    <h3>Emile Peterson</h3>
+
+                <!--</div>-->
+
+            </div>
+
+            <div class="col-3">
+
+                <!--  <div class="test"> --> 
+
+                    <i class="fa fa-quote-left"></i>
+
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus sapiente eveniet soluta nostrum libero non vel et doloremque corporis</p>
+
+                    <div class="rating">
+
+                        <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star-o"></i>
+
+                    </div>
+
+                    <img src="{% static 'images/user-3.png' %}" alt="{{product.name}}" class="user-img">
+
+                    <h3>Mariline Jonson</h3>
+
+                <!-- </div> -->
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- brands -->
+
+<div class="brands">
+
+    <div class="small-container">
+
+        <div class="row">
+
+            <div class="col-5">
+
+                <img src="{% static 'images/logo-godrej.png' %}" alt="">
+
+            </div>
+
+            <div class="col-5">
+
+                <img src="{% static 'images/logo-coca-cola.png' %}" alt="">
+
+            </div>
+
+            <div class="col-5">
+
+                <img src="{% static 'images/logo-oppo.png' %}" alt="">
+
+            </div>
+
+            <div class="col-5">
+
+                <img src="{% static 'images/logo-paypal.png' %}" alt="">
+
+            </div>
+
+            <div class="col-5">
+
+                <img src="{% static 'images/logo-philips.png' %}" alt="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

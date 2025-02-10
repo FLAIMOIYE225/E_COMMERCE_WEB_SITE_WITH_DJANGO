@@ -1,0 +1,187 @@
+{% load static %}
+{% load counter %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <head>
+
+        <meta charset="UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- A quoi sert cette ligne ??? -->
+
+        <title>RedStore | Ecommerce Website Design</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+        <!-- Goofle font : https://fonts.google.com/ -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- cdn : https://www.bootstrapcdn.com/fontawesome/  -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    </head>
+
+    <body>
+
+        <!-- Header -->
+
+        <div class="header">
+
+            <div class="container">
+
+                <div class="navbar">
+    
+                    <div class="logo">
+        
+                        <a href="/"><img width="125px" src="{% static 'images/logo.png' %}" alt="Logo"></a>
+        
+                    </div>
+        
+                    <nav> <!--L'élément HTML <nav> représente une section d'une page ayant des liens vers d'autres pages ou des fragments de cette page. Autrement dit, c'est une section destinée à la navigation dans un document (avec des menus, des tables des matières, des index, etc.). Pour plus d'info : https://developer.mozilla.org/fr/docs/Web/HTML/Element/nav-->
+        
+                        <ul id="MenuItems">
+            
+                            <li ><a href="{% url 'index' %}">Home</a></li>
+            
+                            <li><a href="{% url 'products' %}">Products</a></li>
+            
+                            <!--
+                            <li><a href="">About</a></li>
+            
+                            <li><a href="">Contact </a></li>
+                            -->
+
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'disconnect_user' %}">Disconnect ({{ user.username }})</a></li>
+
+                            {% else %}
+                                <li><a href="{% url 'signUp' %}">Connect</a></li>
+                            {% endif %}
+
+                            {% if user.cart.orders %}
+                            <div class="div-cart" style="top: -10px; left: 10px;"><p>{{ user.cart.orders|filter_count:"ordered__exact:True" }}</p></div>
+                            <li><a href="{% url 'orders' %}">Orders</a></li>
+                            {% endif %}
+
+                        </ul>
+
+                    </nav>
+
+                    {% if user.cart %}
+                        <a id="cart" href="{% url 'cart' %}">
+                            <div class="div-cart"><p>{{ user.cart.orders|filter_count:"ordered__exact:False" }}</p></div>
+                            <img src="{% static 'images/cart.png' %}" width="30px" height="30px" alt="">
+                        </a>
+                    {% endif %}
+
+                    <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()"> <!-- Onclick : Permet de spécifier la fonction à appeler lorsque le bouton d'un dispositif de pointage (qu'est cette élement 'menu-icon') a été pressé et relâché sur l'élément. -->
+
+                </div>
+    
+                {% block home %}{% endblock %}
+    
+            </div>
+
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <!----------------- footer ---------------->
+
+        <div class="footer">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="footer-col-1">
+
+                        <h3>Download Our App</h3>
+
+                        <p>Download App for Android and ios mobile phone.</p>
+
+                        <div class="app-logo">
+
+                            <img src="{% static 'images/play-store.png' %}" alt="play-store-img">
+                            <img src="{% static 'images/app-store.png' %}" alt="app-store-img">
+
+                        </div>
+
+                    </div>
+
+                    <div class="footer-col-2">
+
+                        <img src="{% static 'images/logo-white.png' %}" alt="">
+
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat et facere</p>
+
+                    </div>
+
+                    <div class="footer-col-3">
+
+                        <h3>Useful Links</h3>
+
+                        <ul>
+
+                            <li>Coupons</li>
+                            <li>Blog Post</li>
+                            <li>Return Policy</li>
+                            <li>Join Affiliate</li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="footer-col-4">
+
+                        <h3>Follow us</h3>
+
+                        <ul>
+
+                            <li>Facebook</li>
+                            <li>Instagram</li>
+                            <li>Youtube</li>
+                            <li>X (Ex Twiter)</li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <hr> <!-- Ligne horizontale : Lire la description de vs code -->
+
+                <p class="copyright">Copyright 2024 - MyShowcase</p>
+
+            </div>
+
+        </div>
+
+
+        <!---------------- js for toglle menu ---------------->
+
+        <script>
+
+            var MenuItems = document.getElementById("MenuItems");
+
+            MenuItems.style.maxHeight = "0px";
+
+            function menutoggle(){
+
+                if( MenuItems.style.maxHeight == "0px" ){
+
+                    MenuItems.style.maxHeight = "200px";
+
+                } else MenuItems.style.maxHeight = "0px";
+
+            }
+
+        </script>
+
+        
+    </body>
+
+</html>

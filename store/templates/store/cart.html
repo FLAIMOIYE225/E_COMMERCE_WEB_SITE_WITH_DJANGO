@@ -1,0 +1,87 @@
+ {% extends 'base.html' %}
+
+ {% load mathFilters %}
+ 
+ {% block content %}
+
+        <!----------------- cart items details ---------------->
+
+        <div class="small-container cart-page">
+
+            <table>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th></th>
+                    <th>Odered</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+
+                </tr>
+
+
+                {% for order in orders %}
+
+                    <tr>
+
+                        <td style="max-width: 100px;">
+        
+                            <div class="cart-info"> 
+                                
+                                <a href="{% url 'details' order.product.slug order.product.category.id order.product.id %}"><img src="{{ order.product.thumbnail.url }}" alt="{{order.product.name}}"></a>
+
+                                <div>
+
+                                    <p>{{ order.product.name }}</p>
+            
+                                    <small>Price : ${{order.product.price}}</small>
+
+                                    {% if order.status == 'notYetAccepted' or order.status == 'orderAborted' %}
+                                        <a href="{% url 'remove_order_from_cart' order.id %}">Remove</a>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        
+                        </td>
+
+                        <td><a href="{% url 'order' order.id %}" class="btn" style="margin: 0; padding: 7px; display: block; max-width: 50px; text-align: center;">Buy</a></td>
+
+                        <td>
+
+                            {% if order.ordered %}
+                                <i style="color: green; font-size: 30px;" class="fa fa-check-circle" aria-hidden="true"></i>
+                            {% else %}
+                                <i style="color: red; font-size:30px" class="fa fa-times" aria-hidden="true" aria-hidden="true"></i>                            {% endif %}
+
+                        </td>
+
+                        <td> <input type="number" value="{{order.quantity}}"> </td>
+
+                        <td>$ {{ order.quantity|multiply:order.product.price }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <div class="total-price">
+ 
+                <table>
+
+                    <tr>
+                        <td>Total</td>
+                        <td>${{ totalPrice|floatformat:2 }}</td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+{% endblock %}
+</html>

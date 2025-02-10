@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load counter %}
+
+
+{% block content %}
+
+    <div class="small-container">
+
+        <div class="row row-2">
+
+            <h2>All Products</h2>
+
+            <select>
+
+                <option>Default Sorting</option>
+                <option>Sort by price</option>
+                <option>Sort by popularity</option>
+                <option>Sort by rating</option>
+                <option>Sort by sale</option>
+
+            </select>
+
+        </div>
+
+            <div class="row">
+
+                {% if products %}
+
+                {% for product in products %}
+
+                    <div class="col-4">
+
+                        <a href="{{ product.get_absolute_url }}"><img src="{{product.thumbnail.url}}" alt="{{product.name}}"></a>
+                    
+                        <a href="{{ product.get_absolute_url }}"><h4>{{product.name}}</h4></a>
+
+                        <div class="rating">
+
+                            <!-- Font awesome icons : https://fontawesome.com/v4/icons/ -->
+
+                            {% for i in 5|times %}
+                                {% if i < product.rating %}
+                                    <i class="fa fa-star"></i>
+                                {% else %}
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+
+                        <p>${{product.price}}</p>  
+
+                    </div>
+
+                {% endfor %}
+
+                {% else %}
+                <h2>No Products available</h2>
+
+                {% endif %}
+
+            </div>
+
+    </div>
+
+{% endblock %}
